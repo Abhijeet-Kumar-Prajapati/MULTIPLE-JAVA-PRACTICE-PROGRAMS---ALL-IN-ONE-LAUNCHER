@@ -117,7 +117,7 @@ while IFS= read -r file; do
     body="${body:0:3000}"$'\n\n'"_... (aur baaki chhoda gaya)_"
   fi
 
-  BODY+=$'\n'"### $rel"$'\n'"_class: \`$fqcn\` — **$status**_"$'\n\n''```'$'\n'"$body"$'\n''```'$'\n'
+  BODY+=$'\n'"### $rel"$'\n'"_class: \`$fqcn\` - **$status**_"$'\n\n''```'$'\n'"$body"$'\n''```'$'\n'
 done < <(find "$ROOT" -name '*.java' -not -path '*/.git/*' -not -path "$BUILD/*" | sort)
 
 # ------------------------------------------------------------- report -------

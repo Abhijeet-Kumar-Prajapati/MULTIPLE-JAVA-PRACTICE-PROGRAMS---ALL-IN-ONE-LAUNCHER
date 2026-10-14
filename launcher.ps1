@@ -92,14 +92,17 @@ function Get-TopicOf {
     return 'Standalone Projects'
 }
 
-# Bahut saare files ka naam "Main" / "Graph" hai, to dikhane ke liye topic jod do
+# Bahut saare files ka naam "Main" / "Graph" hai (4 alag "Main" files hain),
+# to dikhane ke liye unke folder ka naam jod do - warna pata nahi chalta kaun sa hai.
 $script:GenericNames = @('Main', 'Graph', 'Edge', 'Test', 'Program', 'Demo', 'class simple')
 
 function Get-DisplayLabel {
     param($Item)
     if ($script:GenericNames -contains $Item.Title) {
-        if ($Item.Topic -eq 'Standalone Projects') { return $Item.Title }
-        return "$($Item.Topic) / $($Item.Title)"
+        $ctx = Get-PrettyName $Item.Parent
+        # repo ka apna folder ("Project's") context nahi hai
+        if (-not $Item.Parent -or $ctx -eq "Project's") { return $Item.Title }
+        return "$ctx / $($Item.Title)"
     }
     return $Item.Title
 }
@@ -170,6 +173,10 @@ foreach ($f in $javaFiles) {
     $pkg  = if ($raw -match '(?m)^\s*package\s+([\w\.]+)\s*;') { $Matches[1] } else { '' }
     $fqcn = if ($pkg) { "$pkg.$cls" } else { $cls }
 
+    # folder ka naam (display label ke liye)
+    $parent = ''
+    if ($rel -match '^(.+)\\[^\\]+$') { $parent = Split-Path -Leaf $Matches[1] }
+
     [void]$programs.Add([pscustomobject]@{
         Id        = Get-SafeId $rel
         Rel       = $rel
@@ -179,6 +186,7 @@ foreach ($f in $javaFiles) {
         FQCN      = $fqcn
         Kind      = Get-ProgramKind $raw
         Topic     = Get-TopicOf $rel
+        Parent    = $parent
         Title     = Get-PrettyName $f.BaseName
         OutDir    = Join-Path $BuildDir (Get-SafeId $rel)
         Compiled  = $false
