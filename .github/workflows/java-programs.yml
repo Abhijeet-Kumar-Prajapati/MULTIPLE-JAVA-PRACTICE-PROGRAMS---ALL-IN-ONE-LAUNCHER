@@ -1,0 +1,41 @@
+name: Java Programs - Compile & Run All
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile-and-run:
+    name: Compile aur run all 40 programs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code checkout karo
+        uses: actions/checkout@v4
+
+      - name: Java 17 install karo
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Sabhi programs compile aur run karo
+        shell: bash
+        run: |
+          chmod +x .github/run-all.sh
+          ./.github/run-all.sh
+
+      - name: Output report upload karo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-program-output
+          path: build/
+          retention-days: 7
+          if-no-files-found: warn
