@@ -1,0 +1,12 @@
+# Git Bash / Linux par shell scripts LF line-endings se hi chalti hain.
+# CRLF hone par "bad interpreter: /usr/bin/env bash^M" error aa jaata hai.
+*.sh   text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+
+# Java source
+*.java text eol=lf
+
+# Windows ke scripts ko CRLF chahiye
+*.bat  text eol=crlf
+*.ps1  text eol=crlf
