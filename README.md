@@ -110,7 +110,7 @@ OOP Basics · Method Dispatch · Negative Value Exception
 
 ### 🌐 JS Practice
 
-`console.js` · `Sorry_babe.js`
+`console.js` · `numbered_output.js`
 
 ---
 
