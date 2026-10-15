@@ -41,6 +41,28 @@ aur pura report `build/run-all-output.txt` me milta hai.
 
 ---
 
+## 📥 Download
+
+[![Download ZIP](https://img.shields.io/badge/Download-Java%20Practice%20Programs-f89820?style=for-the-badge)](https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER/releases/download/v1.0.0/Java-Practice-Programs-1.0.0.zip)
+
+**[`Java-Practice-Programs-1.0.0.zip`](https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER/releases/download/v1.0.0/Java-Practice-Programs-1.0.0.zip) — 41 KB**
+
+Poora repository ek file me: 40 `.java` programs, `launcher.ps1`, `RUN_ME.bat`, aur CI workflow. Koi dependency nahi, koi build step nahi.
+
+**Kaise chalana hai:**
+
+1. Zip unzip karein (kisi bhi folder me).
+2. Check karein ki `java` aur `javac` PATH me hain — `java -version` chala ke dekh lein.
+3. `RUN_ME.bat` par **double click** karein.
+
+Bas. Compiler, classpath, folder structure — sab launcher khud handle karta hai.
+
+> Git se lena ho to: `git clone https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER.git`
+>
+> **🌐 Live site** — <https://abhijeet-kumar-prajapati.github.io/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER/> — saare 40 programs browser me, source code ke saath.
+
+---
+
 ## ☁️ GitHub Actions
 
 Har push par ye workflow **apne aap** saare programs compile aur run karta hai.
