@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Practice Programs — 40 Java programs, one double-click</title>
+<meta name="description" content="40 Java programs covering DSA, OOP, data structures and small projects, with a launcher that compiles and runs any of them by number, category or search. No IDE, no build step, no setup.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23f89820'/><text y='72' x='50' text-anchor='middle' font-size='54' fill='white' font-family='monospace' font-weight='bold'>J</text></svg>">
+<style>
+  :root{
+    --bg:#0c0e14; --bg-alt:#141822; --bg-deep:#080a10; --panel:#1c2130;
+    --fg:#d6dae3; --fg-dim:#8b93a7; --fg-bright:#f2f5fa;
+    --border:#202634; --border-hi:#313a4f;
+    --java:#f89820; --java-soft:rgba(248,152,32,.14);
+    --accent:#4f9cf7; --accent-2:#a855f7;
+    --accent-soft:rgba(79,156,247,.12);
+    --ok:#3fbf7f; --warn:#e3b341;
+    --kw:#cc7832; --str:#6aab73; --num:#6897bb; --com:#7a7f87;
+    --fn:#ffc66d; --typ:#78bce6; --ann:#b3ae60; --cls:#e8bf6a;
+    --font-ui:"Segoe UI",system-ui,-apple-system,sans-serif;
+    --font-mono:"Cascadia Code",Consolas,Menlo,monospace;
+    --ease:cubic-bezier(.4,0,.2,1);
+  }
+  html[data-theme="light"]{
+    --bg:#f7f8fb; --bg-alt:#ffffff; --bg-deep:#eef1f7; --panel:#e9edf5;
+    --fg:#2a3142; --fg-dim:#606a80; --fg-bright:#0f1421;
+    --border:#e0e5ee; --border-hi:#c4cddb;
+    --java:#d97706; --java-soft:rgba(217,119,6,.1);
+    --accent:#2270d6; --accent-2:#8b3ee0;
+    --accent-soft:rgba(34,112,214,.08);
+    --ok:#1f9d5f; --warn:#b07d0a;
+    --kw:#a04000; --str:#2a7a3e; --num:#1a5c8a; --com:#8a8f98;
+    --fn:#8a5a00; --typ:#1a5c8a; --ann:#7a6f00; --cls:#8a5a00;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);
+    font-size:15.5px;line-height:1.68;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  .aura{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+  .aura i{position:absolute;display:block;border-radius:50%;filter:blur(100px);opacity:.26}
+  .aura i:nth-child(1){width:540px;height:540px;background:var(--java);top:-220px;left:-140px;animation:drift 26s var(--ease) infinite}
+  .aura i:nth-child(2){width:460px;height:460px;background:var(--accent-2);bottom:-240px;right:-120px;animation:drift 32s var(--ease) infinite reverse}
+  html[data-theme="light"] .aura i{opacity:.13}
+  @keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,70px)}}
+
+  header{position:sticky;top:0;z-index:60;
+    background:color-mix(in srgb,var(--bg) 84%,transparent);
+    backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--border)}
+  .bar{display:flex;align-items:center;gap:13px;height:60px}
+  .bar .mk{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;
+    justify-content:center;font-family:var(--font-mono);font-weight:700;font-size:16px;
+    background:linear-gradient(135deg,var(--java),#e8630a);color:#fff}
+  .bar .nm{font-weight:700;color:var(--fg-bright);letter-spacing:-.2px}
+  .bar .tag{font-size:12px;color:var(--fg-dim);border-left:1px solid var(--border);padding-left:13px}
+  .bar .sp{margin-left:auto;display:flex;align-items:center;gap:4px}
+  .lnk{font-size:13.5px;color:var(--fg-dim);padding:7px 11px;border-radius:7px;transition:.16s}
+  .lnk:hover{color:var(--fg-bright);background:var(--panel);text-decoration:none}
+  .tgl{width:31px;height:31px;display:flex;align-items:center;justify-content:center;
+    font-size:14px;color:var(--fg-dim);cursor:pointer;background:transparent;
+    border:1px solid var(--border);border-radius:7px;transition:.16s}
+  .tgl:hover{color:var(--fg-bright);border-color:var(--accent);background:var(--panel)}
+
+  .hero{padding:72px 0 56px;text-align:center}
+  .badge{display:inline-flex;align-items:center;gap:9px;padding:6px 16px;margin-bottom:24px;
+    font-size:12.5px;color:var(--fg-dim);background:var(--bg-alt);
+    border:1px solid var(--border);border-radius:30px;animation:rise .7s var(--ease) both}
+  .badge i{width:7px;height:7px;border-radius:50%;background:var(--ok);
+    box-shadow:0 0 0 0 rgba(63,191,127,.6);animation:pulse 2.2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(63,191,127,0)}100%{box-shadow:0 0 0 0 rgba(63,191,127,0)}}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+  h1{font-size:clamp(32px,6vw,58px);font-weight:800;letter-spacing:-2.2px;
+    color:var(--fg-bright);line-height:1.07;margin-bottom:12px;animation:rise .7s .08s var(--ease) both}
+  h1 em{font-style:normal;background:linear-gradient(100deg,var(--java),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .typewrap{min-height:1.2em;margin-bottom:16px;font-family:var(--font-mono);
+    font-size:clamp(14px,2.5vw,21px);color:var(--java)}
+  .caret{display:inline-block;width:2.5px;height:1.05em;background:var(--java);
+    vertical-align:-.16em;margin-left:3px;animation:blink 1.05s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .sub{max-width:650px;margin:0 auto 30px;font-size:17.5px;color:var(--fg-dim);
+    animation:rise .7s .16s var(--ease) both}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;
+    animation:rise .7s .24s var(--ease) both}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;font-size:14.5px;
+    font-weight:600;border-radius:9px;border:1px solid transparent;cursor:pointer;
+    transition:transform .16s var(--ease),background .16s}
+  .btn:hover{transform:translateY(-2px);text-decoration:none}
+  .btn.main{background:linear-gradient(135deg,var(--java),#e8630a);color:#fff}
+  .btn.ghost{background:var(--bg-alt);color:var(--fg);border-color:var(--border-hi)}
+  .btn.ghost:hover{border-color:var(--java);color:var(--fg-bright)}
+  .meta{font-size:13px;color:var(--fg-dim);animation:rise .7s .3s var(--ease) both}
+  .meta b{color:var(--fg)}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:46px}
+  .stat{padding:20px 14px;background:var(--bg-alt);border:1px solid var(--border);
+    border-radius:11px;transition:.2s var(--ease)}
+  .stat:hover{border-color:var(--java);transform:translateY(-3px)}
+  .stat .v{font-size:30px;font-weight:800;color:var(--fg-bright);letter-spacing:-1.2px;
+    font-variant-numeric:tabular-nums}
+  .stat .k{font-size:11.5px;color:var(--fg-dim);text-transform:uppercase;
+    letter-spacing:1.2px;margin-top:3px}
+
+  section{padding:70px 0;border-top:1px solid var(--border)}
+  .eyebrow{text-align:center;font-size:12.5px;font-weight:700;letter-spacing:1.8px;
+    text-transform:uppercase;color:var(--java);margin-bottom:12px}
+  h2{text-align:center;font-size:clamp(23px,3.5vw,34px);font-weight:800;
+    letter-spacing:-1px;color:var(--fg-bright);margin-bottom:14px}
+  .lead{max-width:670px;margin:0 auto 40px;text-align:center;font-size:16.5px;color:var(--fg-dim)}
+  .lead b{color:var(--fg)}
+
+  /* ============================================= launcher demo */
+  .app{
+    max-width:1040px;margin:0 auto;border-radius:13px;overflow:hidden;
+    border:1px solid var(--border-hi);background:var(--bg-deep);
+    box-shadow:0 34px 84px -36px rgba(0,0,0,.75)
+  }
+  .app-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;
+    background:var(--panel);border-bottom:1px solid var(--border)}
+  .dot{width:11px;height:11px;border-radius:50%;flex:none}
+  .d1{background:#f14c4c}.d2{background:#e3b341}.d3{background:#3fbf7f}
+  .app-title{flex:1;text-align:center;font-family:var(--font-mono);font-size:12px;
+    color:var(--fg-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .app-body{display:grid;grid-template-columns:290px 1fr;min-height:430px}
+  .side{border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--bg-alt)}
+  .side-h{padding:12px 14px;border-bottom:1px solid var(--border);
+    font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--fg-dim);font-weight:600}
+  .cats{padding:8px;display:grid;gap:3px;overflow-y:auto;max-height:300px}
+  .cat{display:flex;align-items:center;gap:8px;padding:8px 10px;font-size:13px;
+    color:var(--fg-dim);cursor:pointer;border-radius:7px;border:1px solid transparent;
+    background:none;width:100%;text-align:left;font-family:inherit;transition:.15s}
+  .cat:hover{background:var(--panel);color:var(--fg)}
+  .cat.on{background:var(--java-soft);border-color:rgba(248,152,32,.4);color:var(--java)}
+  .cat .n{margin-left:auto;font-size:11px;opacity:.7;font-variant-numeric:tabular-nums}
+  .side-s{padding:10px 12px;border-top:1px solid var(--border);margin-top:auto}
+  .side-s input{width:100%;padding:8px 11px;font-size:13px;font-family:inherit;
+    color:var(--fg);background:var(--bg-deep);border:1px solid var(--border);
+    border-radius:7px;outline:none;transition:.16s}
+  .side-s input:focus{border-color:var(--java);box-shadow:0 0 0 3px rgba(248,152,32,.14)}
+  .side-s .hint{font-size:11px;color:var(--fg-dim);margin-top:7px;line-height:1.5}
+
+  .main{padding:0;overflow-y:auto;max-height:430px}
+  .plist{list-style:none}
+  .plist li{display:flex;align-items:center;gap:11px;padding:10px 15px;
+    border-bottom:1px solid var(--border);cursor:pointer;transition:.13s}
+  .plist li:hover{background:var(--bg-alt)}
+  .plist li.on{background:var(--java-soft)}
+  .plist .num{width:26px;flex:none;font-family:var(--font-mono);font-size:11.5px;
+    color:var(--fg-dim);text-align:right}
+  .plist .nm{flex:1;min-width:0;font-size:13.5px;color:var(--fg);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .plist li.on .nm{color:var(--java)}
+  .plist .cls{flex:none;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-dim);
+    background:var(--panel);padding:2px 7px;border-radius:4px}
+  .plist .gui{flex:none;font-size:9.5px;font-weight:700;letter-spacing:.6px;
+    text-transform:uppercase;padding:2px 6px;border-radius:4px;
+    background:rgba(227,179,65,.15);color:var(--warn)}
+  .empty{padding:44px 20px;text-align:center;color:var(--fg-dim);font-size:13.5px}
+
+  .code-head{display:flex;align-items:center;gap:10px;padding:11px 15px;
+    border-bottom:1px solid var(--border);background:var(--bg-alt);position:sticky;top:0}
+  .code-head .fn{font-family:var(--font-mono);font-size:12.5px;color:var(--fg-bright);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .code-head .mt{margin-left:auto;flex:none;font-size:11px;color:var(--fg-dim);
+    font-family:var(--font-mono)}
+  pre.code{margin:0;padding:15px 17px;overflow-x:auto;
+    font-family:var(--font-mono);font-size:12.4px;line-height:1.72;
+    white-space:pre;tab-size:4}
+  .c-kw{color:var(--kw)}.c-str{color:var(--str)}.c-num{color:var(--num)}
+  .c-com{color:var(--com);font-style:italic}.c-fn{color:var(--fn)}
+  .c-typ{color:var(--typ)}.c-ann{color:var(--ann)}.c-cls{color:var(--cls)}
+
+  .app-foot{padding:10px 15px;border-top:1px solid var(--border);background:var(--bg-alt);
+    font-family:var(--font-mono);font-size:11.5px;color:var(--fg-dim);
+    display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .app-foot b{color:var(--java)}
+
+  /* ============================================= cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:14px}
+  .card{padding:22px;background:var(--bg-alt);border:1px solid var(--border);
+    border-radius:12px;transition:.22s var(--ease)}
+  .card:hover{border-color:var(--java);transform:translateY(-4px)}
+  .card .ic{width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+    font-size:17px;background:var(--panel);border-radius:10px;margin-bottom:13px}
+  .card h3{font-size:15px;color:var(--fg-bright);margin-bottom:7px;font-weight:650}
+  .card p{font-size:13.6px;color:var(--fg-dim);line-height:1.62}
+  .card code,.lead code,.faq code{font-family:var(--font-mono);font-size:12.5px;
+    background:var(--panel);padding:1.5px 6px;border-radius:4px;color:var(--fg)}
+
+  /* cat bars */
+  .catbars{max-width:720px;margin:0 auto;display:grid;gap:12px}
+  .cb{display:grid;grid-template-columns:200px 1fr 44px;gap:14px;align-items:center}
+  .cb .nm{font-size:13.5px;color:var(--fg);text-align:right}
+  .cb .barwrap{height:9px;background:var(--bg-deep);border-radius:20px;overflow:hidden;
+    border:1px solid var(--border)}
+  .cb .fill{height:100%;border-radius:20px;
+    background:linear-gradient(90deg,var(--java),#e8630a);
+    width:0;transition:width 1.1s var(--ease)}
+  .cb .n{font-size:13px;color:var(--fg-dim);font-variant-numeric:tabular-nums}
+  @media(max-width:640px){
+    .cb{grid-template-columns:1fr;gap:5px}
+    .cb .nm{text-align:left}
+    .app-body{grid-template-columns:1fr}
+    .side{border-right:0;border-bottom:1px solid var(--border)}
+    .cats{max-height:none;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .main{max-height:none}
+  }
+
+  .honest{max-width:820px;margin:0 auto;display:grid;gap:13px;
+    grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+  .hcard{padding:22px;border-radius:12px;border:1px solid var(--border);background:var(--bg-alt)}
+  .hcard.good{border-color:rgba(63,191,127,.4)}
+  .hcard.warn{border-color:rgba(227,179,65,.4)}
+  .hcard h3{font-size:14.5px;color:var(--fg-bright);margin-bottom:10px;display:flex;
+    align-items:center;gap:9px;font-weight:650}
+  .hcard ul{list-style:none;display:grid;gap:7px}
+  .hcard li{font-size:13.4px;color:var(--fg-dim);padding-left:20px;position:relative}
+  .hcard li::before{content:"\2713";position:absolute;left:0;color:var(--ok);font-size:12px}
+  .hcard.warn li::before{content:"!";color:var(--warn);font-weight:800}
+
+  .faq{max-width:750px;margin:0 auto}
+  details{background:var(--bg-alt);border:1px solid var(--border);border-radius:11px;
+    padding:16px 20px;margin-bottom:11px;transition:.2s var(--ease)}
+  details[open]{border-color:var(--java)}
+  summary{cursor:pointer;color:var(--fg-bright);font-size:15px;font-weight:650;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"\25B8";display:inline-block;width:19px;color:var(--java);
+    transition:transform .2s var(--ease)}
+  details[open] summary::before{transform:rotate(90deg)}
+  details p{margin-top:12px;font-size:14px;color:var(--fg-dim);padding-left:19px}
+
+  .band{text-align:center;padding:52px 34px;border-radius:16px;
+    background:linear-gradient(140deg,var(--java-soft),transparent 65%);
+    border:1px solid var(--border-hi)}
+  .band h2{margin-bottom:12px}
+  .band p{max-width:540px;margin:0 auto 24px;color:var(--fg-dim);font-size:16px}
+
+  footer{padding:38px 0 48px;border-top:1px solid var(--border);text-align:center}
+  footer .fl{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin-bottom:15px;font-size:13.5px}
+  footer .cp{font-size:12.5px;color:var(--fg-dim)}
+
+  .rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="aura"><i></i><i></i></div>
+
+<header>
+  <div class="wrap bar">
+    <span class="mk">J</span>
+    <span class="nm">Java Practice Programs</span>
+    <span class="tag">40 programs &middot; one launcher</span>
+    <span class="sp">
+      <a class="lnk" href="#demo">Try it</a>
+      <a class="lnk" href="#topics">Topics</a>
+      <a class="lnk" href="#faq">FAQ</a>
+      <a class="lnk" href="https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER">GitHub</a>
+      <button class="tgl" id="tgl" title="Switch theme" aria-label="Switch theme">&#9681;</button>
+    </span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="badge"><i></i> 40 programs &middot; 2,251 lines &middot; every one compiles</span>
+    <h1>Forty Java programs. <br>One <em>double-click</em>.</h1>
+    <div class="typewrap"><span id="type"></span><span class="caret"></span></div>
+    <p class="sub">
+      DSA, OOP, core Java and three small projects &mdash; collected while learning, and
+      wired to a launcher that compiles and runs any of them by number, by category or
+      by searching for the name. No IDE, no build step, no Maven.
+    </p>
+
+    <div class="cta">
+      <a class="btn main" href="#demo">&#9654; Open the launcher</a>
+      <a class="btn ghost" href="https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER">&#11015; Clone the repo</a>
+    </div>
+    <p class="meta">Windows &middot; needs a <b>JDK</b> and nothing else &middot;
+      CI compiles all 40 on every push</p>
+
+    <div class="stats rv">
+      <div class="stat"><div class="v" data-count="40">0</div><div class="k">Programs</div></div>
+      <div class="stat"><div class="v" data-count="5">0</div><div class="k">Categories</div></div>
+      <div class="stat"><div class="v" data-count="2251">0</div><div class="k">Lines of Java</div></div>
+      <div class="stat"><div class="v" data-count="36">0</div><div class="k">Run in batch</div></div>
+      <div class="stat"><div class="v" data-count="0">0</div><div class="k">Dependencies</div></div>
+    </div>
+  </div>
+
+  <!-- ============================================= demo -->
+  <section id="demo">
+    <div class="eyebrow rv">The real thing</div>
+    <h2 class="rv">Every program, right here</h2>
+    <p class="lead rv">
+      This is the actual launcher interface, loaded with the actual source from this
+      repository. Pick a category, search by name, and open any program to read the code
+      that ships &mdash; nothing here is a mock-up.
+    </p>
+
+    <div class="app rv">
+      <div class="app-bar">
+        <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+        <span class="app-title">launcher.ps1 &mdash; Java Practice Programs</span>
+      </div>
+      <div class="app-body">
+        <div class="side">
+          <div class="side-h">Categories</div>
+          <div class="cats" id="cats"></div>
+          <div class="side-s">
+            <input id="q" type="search" placeholder="Search: sort, inherit, matrix&hellip;" spellcheck="false" autocomplete="off">
+            <div class="hint">Tip: the search matches the class name too.</div>
+          </div>
+        </div>
+        <div class="main" id="main">
+          <div class="empty">Loading the catalogue&hellip;</div>
+        </div>
+      </div>
+      <div class="app-foot">
+        <span><b id="fCount">0</b> programs listed</span>
+        <span>GUI programs are skipped in batch runs</span>
+        <span>5s time limit per program</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= topics -->
+  <section id="topics">
+    <div class="eyebrow rv">Coverage</div>
+    <h2 class="rv">What the 40 cover</h2>
+    <p class="lead rv">
+      Grouped by what each program is actually teaching, not by which folder it happens
+      to live in &mdash; the launcher sorts them into these buckets itself.
+    </p>
+    <div class="catbars rv" id="catbars"></div>
+
+    <div class="grid rv" style="margin-top:44px">
+      <div class="card"><div class="ic">&#128337;</div><h3>DSA &amp; data structures</h3>
+        <p>Bubble, merge and quick sort. Stack, queue, Huffman coding. Linear and binary
+           search, plus BFS, DFS, Dijkstra and Kruskal on real graphs.</p></div>
+      <div class="card"><div class="ic">&#129504;</div><h3>OOP concepts</h3>
+        <p>Inheritance, method overloading and overriding, multiple inheritance, class
+           objects and methods, method dispatch, static blocks and variables, encapsulation
+           through the Employee and Student examples.</p></div>
+      <div class="card"><div class="ic">&#9888;</div><h3>Core concepts</h3>
+        <p>Exception handling and custom exceptions, plus an event-handling demo that
+           shows the same idea with a listener behind it.</p></div>
+      <div class="card"><div class="ic">&#128296;</div><h3>Basic practice</h3>
+        <p>Factorial, primes, matrix addition and multiplication, max-min, array reversal,
+           sum of naturals, a calculator, operators, class basics and sandglass patterns.</p></div>
+      <div class="card"><div class="ic">&#127959;</div><h3>Standalone projects</h3>
+        <p>Snake game, library management and a scientific calculator &mdash; the three that
+           open a window, which is why batch runs skip them.</p></div>
+      <div class="card"><div class="ic">&#9881;</div><h3>And a launcher</h3>
+        <p>Pick by number, by range, by category or by name. Programs that need input get
+           sample values filled in automatically so nothing hangs waiting for you.</p></div>
+    </div>
+  </section>
+
+  <!-- ============================================= how -->
+  <section>
+    <div class="eyebrow rv">How you actually use it</div>
+    <h2 class="rv">Copy, double-click, done</h2>
+    <p class="lead rv">No install, no configuration, no dependency to download.</p>
+    <div class="app rv" style="max-width:760px">
+      <div class="app-bar">
+        <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+        <span class="app-title">RUN_ME.bat</span>
+      </div>
+      <div style="padding:20px 22px">
+<pre class="code" style="padding:0"><span class="c-com">REM Step 1 - grab the repository</span>
+git clone https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER.git
+
+<span class="c-com">REM Step 2 - make sure java and javac are on PATH</span>
+java -version
+
+<span class="c-com">REM Step 3 - double click RUN_ME.bat, or from a terminal:</span>
+RUN_ME.bat</pre>
+        <p style="font-size:13.5px;color:var(--fg-dim);margin-top:18px">
+          That is the whole setup. The launcher finds the JDK, compiles what you picked into
+          <code style="font-family:var(--font-mono)">build/</code> and runs it. Output lands in
+          <code style="font-family:var(--font-mono)">build/run-all-output.txt</code> so you can
+          read the whole batch run afterwards.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= honest -->
+  <section>
+    <div class="eyebrow rv">Straight answers</div>
+    <h2 class="rv">What is verified, and what is not</h2>
+    <p class="lead rv">This is coursework and self-practice, and it is worth being clear about what that means.</p>
+    <div class="honest rv">
+      <div class="hcard good">
+        <h3><span>&#10003;</span> Checked on every push</h3>
+        <ul>
+          <li>All 40 programs compile cleanly on the CI runner</li>
+          <li>36 console programs are run end to end, not just compiled</li>
+          <li>Batch mode, category mode, ranges and search all exercised</li>
+          <li>Every run has a 5 second timeout so a stuck loop fails loudly</li>
+        </ul>
+      </div>
+      <div class="hcard warn">
+        <h3><span>!</span> Worth knowing</h3>
+        <ul>
+          <li>These are learning programs, not a finished library</li>
+          <li>The four GUI programs are skipped in batch runs and need a desktop</li>
+          <li>Nothing here has unit tests &mdash; the check is does-it-run</li>
+          <li>The launcher is Windows only, because it is a .bat and a .ps1</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= faq -->
+  <section id="faq">
+    <div class="eyebrow rv">Questions</div>
+    <h2 class="rv">Before you clone it</h2>
+    <div class="faq rv">
+      <details><summary>What do I need installed?</summary>
+        <p>Only a JDK. Add <code>bin</code> to your PATH and the launcher finds
+           <code>java</code> and <code>javac</code> on its own. There is no Maven, no
+           Gradle and no library to download.</p></details>
+      <details><summary>Can I run just one program?</summary>
+        <p>Yes. Pick <b>1</b> in the menu and enter its number. You can also give several
+           at once &mdash; <code>3,7,12</code> or a range like <code>5-9</code> or
+           <code>all</code>.</p></details>
+      <details><summary>Will it hang waiting for keyboard input?</summary>
+        <p>No. Programs that read from <code>Scanner</code> get sample values filled in
+           automatically when they are run as a batch, and every program has a five second
+           limit so an accidental infinite loop shows up as a failure rather than a freeze.</p></details>
+      <details><summary>Why are four programs skipped?</summary>
+        <p>Snake game, library management, scientific calculator and event handling open
+           a window. A window cannot open during a headless batch run, so they are listed
+           but skipped. Run them from the menu by number when you are at a desktop.</p></details>
+      <details><summary>Where does compiled output go?</summary>
+        <p>Into <code>build/</code>, which is git-ignored. The full transcript of a
+           <b>RUN ALL</b> session is written to <code>build/run-all-output.txt</code>, and
+           the menu can reopen it for you.</p></details>
+    </div>
+  </section>
+
+  <!-- ============================================= final -->
+  <section>
+    <div class="band rv">
+      <h2>Forty programs beat forty folders</h2>
+      <p>One launcher, every program, and a CI job that proves all of them still compile.</p>
+      <div class="cta" style="margin:0">
+        <a class="btn main" href="https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER">&#11015; Clone the repository</a>
+        <a class="btn ghost" href="#demo">&#9654; Browse the code</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="fl">
+      <a href="https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER">Source code</a>
+      <a href="https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER/actions/workflows/java-programs.yml">CI build</a>
+      <a href="https://github.com/Abhijeet-Kumar-Prajapati/MULTIPLE-JAVA-PRACTICE-PROGRAMS---ALL-IN-ONE-LAUNCHER/blob/main/README.md">README</a>
+    </div>
+    <p class="cp">&copy; 2026 Abhijeet Kumar Prajapati &mdash; Java Practice Programs, All-in-One Launcher.</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ------------------------------------------------ theme */
+  var K = "jpp_theme", root = document.documentElement;
+  try {
+    var s = localStorage.getItem(K);
+    if (s === "light" || s === "dark") root.dataset.theme = s;
+    else if (window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches)
+      root.dataset.theme = "light";
+  } catch (e) {}
+  document.getElementById("tgl").onclick = function () {
+    var n = root.dataset.theme === "light" ? "dark" : "light";
+    root.dataset.theme = n;
+    try { localStorage.setItem(K, n); } catch (e) {}
+  };
+
+  /* ------------------------------------------------ typing */
+  var PHRASES = [
+    "sort. stack. queue. graph. huffman.",
+    "inheritance. overloading. dispatch.",
+    "40 programs. 5 categories. 2,251 lines.",
+    "no IDE. no Maven. just a JDK.",
+    "compile and run by number, category or name"
+  ];
+  var typeEl = document.getElementById("type");
+  if (reduced) typeEl.textContent = PHRASES[0];
+  else (function () {
+    var p = 0, i = 0, del = false;
+    (function tick() {
+      var w = PHRASES[p];
+      typeEl.textContent = del ? w.slice(0, --i) : w.slice(0, ++i);
+      var wait = del ? 24 : 44;
+      if (!del && i === w.length) { wait = 1500; del = true; }
+      else if (del && i === 0) { del = false; p = (p + 1) % PHRASES.length; wait = 330; }
+      setTimeout(tick, wait);
+    })();
+  })();
+
+  /* ------------------------------------------------ java highlighter
+     Strings and comments are parked behind private-use markers first, so the
+     keyword and number passes can never rewrite the inside of one. */
+  var KW = /\b(abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|void|volatile|while|true|false|null|var|record|sealed|yield)\b/g;
+
+  function esc(t) {
+    return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function hiJava(src) {
+    var store = [];
+    var s = esc(src).replace(
+      /\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g,
+      function (m) { store.push(m); return "\uE000" + store.length + "\uE001"; }
+    );
+    s = s.replace(/@[A-Za-z_]\w*/g, function (m) { return '<span class="c-ann">' + m + "</span>"; })
+         .replace(KW, function (m) { return '<span class="c-kw">' + m + "</span>"; })
+         .replace(/\b(\d+\.?\d*[fFdDlL]?)\b/g, '<span class="c-num">$1</span>')
+         .replace(/\b([A-Z][A-Za-z0-9_]*)\b/g, '<span class="c-cls">$1</span>')
+         .replace(/\b([a-z_]\w*)\s*\(/g, '<span class="c-fn">$1</span>(')
+         .replace(/\uE000(\d+)\uE001/g, function (m, n) {
+           var v = store[+n - 1];
+           var cls = v.charAt(0) === "/" ? "c-com"
+                   : v.charAt(0) === "@" ? "c-ann" : "c-str";
+           return '<span class="' + cls + '">' + v + "</span>";
+         });
+    return s;
+  }
+
+  /* ------------------------------------------------ launcher */
+  var DATA = null, cat = "All", sel = null, q = "";
+
+  function esc2(t) { return t; }
+
+  function filtered() {
+    if (!DATA) return [];
+    var list = DATA.programs;
+    if (cat !== "All") list = list.filter(function (p) { return p.cat === cat; });
+    if (q) {
+      var t = q.toLowerCase();
+      list = list.filter(function (p) {
+        return (p.name + " " + p.cls + " " + p.cat).toLowerCase().indexOf(t) !== -1;
+      });
+    }
+    return list;
+  }
+
+  function paintList() {
+    var list = filtered();
+    var main = document.getElementById("main");
+    if (sel && list.some(function (p) { return p.id === sel; })) {
+      return paintCode();
+    }
+    if (!list.length) {
+      main.innerHTML = '<div class="empty">Nothing matches &ldquo;' +
+        q.replace(/[<>&]/g, "") + '&rdquo; in this category.</div>';
+    } else {
+      main.innerHTML = '<ul class="plist">' + list.map(function (p, i) {
+        return '<li data-id="' + p.id + '"' + (p.id === sel ? ' class="on"' : "") + '>' +
+          '<span class="num">' + (i + 1) + "</span>" +
+          '<span class="nm">' + p.name.replace(/[<>&]/g, "") + "</span>" +
+          (p.gui ? '<span class="gui">GUI</span>' : "") +
+          '<span class="cls">' + p.cls + "</span></li>";
+      }).join("") + "</ul>";
+      Array.prototype.forEach.call(main.querySelectorAll(".plist li"), function (li) {
+        li.onclick = function () { sel = li.dataset.id; paintList(); paintCode(); };
+      });
+    }
+    document.getElementById("fCount").textContent = list.length;
+  }
+
+  function paintCode() {
+    var p = DATA.programs.filter(function (x) { return x.id === sel; })[0];
+    if (!p) return;
+    document.getElementById("main").innerHTML =
+      '<div class="code-head"><span class="fn">' +
+        p.name.replace(/[<>&]/g, "") + ".java</span>" +
+      '<span class="mt">' + p.cat + " &middot; " + p.lines + " lines</span></div>" +
+      '<pre class="code">' + hiJava(p.code) + "</pre>";
+    Array.prototype.forEach.call(
+      document.getElementById("main").querySelectorAll(".plist li"), function (li) {
+        li.classList.toggle("on", li.dataset.id === sel);
+      });
+  }
+
+  function paintCats() {
+    var items = [{ name: "All", count: DATA.total }].concat(DATA.categories);
+    document.getElementById("cats").innerHTML = items.map(function (c) {
+      return '<button class="cat' + (c.name === cat ? " on" : "") +
+        '" data-c="' + c.name.replace(/[<>&"]/g, "") + '">' +
+        c.name.replace(/&/g, "&amp;") +
+        '<span class="n">' + c.count + "</span></button>";
+    }).join("");
+    Array.prototype.forEach.call(document.getElementById("cats").children, function (b) {
+      b.onclick = function () { cat = b.dataset.c; sel = null; paintCats(); paintList(); };
+    });
+  }
+
+  function paintBars() {
+    var max = DATA.categories.reduce(function (m, c) { return Math.max(m, c.count); }, 1);
+    document.getElementById("catbars").innerHTML = DATA.categories.map(function (c) {
+      return '<div class="cb"><div class="nm">' + c.name + "</div>" +
+        '<div class="barwrap"><div class="fill" data-w="' +
+        ((c.count / max) * 100).toFixed(1) + '"></div></div>' +
+        '<div class="n">' + c.count + "</div></div>";
+    }).join("");
+  }
+
+  fetch("programs.json").then(function (r) { return r.json(); }).then(function (d) {
+    DATA = d;
+    paintCats();
+    paintList();
+    paintBars();
+    var fills = document.querySelectorAll(".fill");
+    var draw = function () {
+      Array.prototype.forEach.call(fills, function (f) { f.style.width = f.dataset.w + "%"; });
+    };
+    if (reduced) draw();
+    else setTimeout(draw, 350);
+  }).catch(function () {
+    document.getElementById("main").innerHTML =
+      '<div class="empty">Could not load programs.json</div>';
+  });
+
+  document.getElementById("q").addEventListener("input", function (e) {
+    q = e.target.value.trim(); sel = null; paintList();
+  });
+
+  /* ------------------------------------------------ reveal + counters */
+  function countUp(el) {
+    var t = parseInt(el.dataset.count, 10) || 0;
+    if (reduced || t === 0) { el.textContent = t; return; }
+    var t0 = null, dur = 1400;
+    (function step(ts) {
+      if (!t0) t0 = ts;
+      var k = Math.min(1, (ts - t0) / dur);
+      el.textContent = Math.round(t * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(step); else el.textContent = t;
+    })(performance.now());
+  }
+  var rIO = new IntersectionObserver(function (en) {
+    en.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("in"); rIO.unobserve(e.target); }
+    });
+  }, { threshold: .1 });
+  document.querySelectorAll(".rv").forEach(function (el) { rIO.observe(el); });
+  var cIO = new IntersectionObserver(function (en) {
+    en.forEach(function (e) {
+      if (!e.isIntersecting || e.target.dataset.d) return;
+      e.target.dataset.d = "1"; countUp(e.target); cIO.unobserve(e.target);
+    });
+  }, { threshold: .4 });
+  document.querySelectorAll("[data-count]").forEach(function (el) { cIO.observe(el); });
+  setTimeout(function () {
+    document.querySelectorAll(".stats [data-count]").forEach(function (el) {
+      if (!el.dataset.d) { el.dataset.d = "1"; countUp(el); }
+    });
+  }, 1400);
+})();
+</script>
+</body>
+</html>
